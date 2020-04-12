@@ -1,0 +1,6 @@
+pred			| the target attribute
+
+city		a,b.
+temp		continuous.
+humi		continuous.
+pred		F,T.
