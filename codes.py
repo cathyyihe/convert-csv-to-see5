@@ -6,6 +6,7 @@ csvfile = "csv1.csv"
 namesfile = "see51.names"
 datafile = "see51.data"
 target="pred"
+maxnum=10
 
 # read csv file
 f = open(csvfile, 'r')
@@ -36,17 +37,15 @@ for w in range(len(attributes)):
         print(attributes[w]+"\t\t"+"continuous.")
         n.write(attributes[w]+"\t"*2+"continuous."+"\n")
     except NameError or SyntaxError:
-        if len(datatype)>=10:
+        if len(datatype)>=maxnum:
             print(attributes[w]+"\t\t"+"label.")
             n.write(attributes[w]+"\t"*2+"label."+"\n")
         else:
             print(attributes[w],end="\t\t")
             n.write(attributes[w]+"\t"*2)
-            for q in range(len(datatype)-1):
-                print(datatype[q]+",",end="")
-                n.write(datatype[q]+",")
-            print(datatype[-1]+".")
-            n.write(datatype[-1]+".\n")
+            print(",".join(datatype)+".")
+            n.write(",".join(datatype)+".\n")          
+
     w+=1
     datatype=[]
 n.close()
@@ -54,10 +53,7 @@ n.close()
 # create .data file
 m=open(datafile,"w")
 for d in alldata[1:]:
-    for e in range(len(d)-1):
-        print(d[e]+",",end="")
-        m.write(d[e]+",")
-    print(d[-1])
-    m.write(d[-1]+"\n")
+    print(",".join(d))
+    m.write(",".join(d)+"\n")
 m.close()
 
