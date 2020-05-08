@@ -1,59 +1,57 @@
-
 import csv
 import os
 
-csvfile = "csv1.csv"
-namesfile = "see51.names"
-datafile = "see51.data"
-target="pred"
-maxnum=10
+class See5():
+    def __init__(self,csvfile,namesfile,datafile,target):
+        self.csvfile = csvfile
+        self.namesfile = namesfile
+        self.datafile = datafile
+        self.target=target
 
-# read csv file
-f = open(csvfile, 'r')
-alldata = list(csv.reader(f))
-f.close()
+    def generate_see5(self):
+        maxnum=10
 
-# create .names file
-n=open(namesfile,"w")
-print(target+"\t"*3+"| the target attribute"+"\n")
-n.write(target+"\t"*3+"| the target attribute"+"\n"*2)
+        # read csv file
+        f = open(self.csvfile, 'r')
+        alldata = list(csv.reader(f))
+        f.close()
 
-attributes = alldata[0]
+        # create .names file
+        n=open(self.namesfile,"w")
+        n.write(self.target+"\t"*3+"| the target attribute"+"\n"*2)
 
-data=[]
-for item in alldata[1:]:
-    for x in range(len(attributes)):
-        item_x=str(item[x])
-        data+=[item_x,]
+        attributes = alldata[0]
 
-datatype=[]
-for w in range(len(attributes)):
-    for y in range(w,len(data),len(attributes)):
-        datatype+=[data[y],]
-    datatype=list(sorted(set(datatype)))
-    try:
-        t="+"
-        datacheck=eval(str(t.join(datatype)).strip("~!@#$%^&*(),./;'[]\<>-=_+{}|:<>? "))
-        print(attributes[w]+"\t\t"+"continuous.")
-        n.write(attributes[w]+"\t"*2+"continuous."+"\n")
-    except NameError or SyntaxError:
-        if len(datatype)>=maxnum:
-            print(attributes[w]+"\t\t"+"label.")
-            n.write(attributes[w]+"\t"*2+"label."+"\n")
-        else:
-            print(attributes[w],end="\t\t")
-            n.write(attributes[w]+"\t"*2)
-            print(",".join(datatype)+".")
-            n.write(",".join(datatype)+".\n")          
+        data=[]
+        for item in alldata[1:]:
+            for x in range(len(attributes)):
+                item_x=str(item[x])
+                data+=[item_x,]
 
-    w+=1
-    datatype=[]
-n.close()
+        datatype=[]
+        for w in range(len(attributes)):
+            for y in range(w,len(data),len(attributes)):
+                datatype+=[data[y],]
+            datatype=list(sorted(set(datatype)))
+            try:
+                t="+"
+                datacheck=eval(str(t.join(datatype)).strip("~!@#$%^&*(),./;'[]\<>-=_+{}|:<>? "))
+                n.write(attributes[w]+"\t"*2+"continuous."+"\n")
+            except NameError or SyntaxError:
+                if len(datatype)>=10:
+                    n.write(attributes[w]+"\t"*2+"label."+"\n")
+                else:
+                    n.write(attributes[w]+"\t"*2)
+                    n.write(",".join(datatype)+".\n")
+            w+=1
+            datatype=[]
+        n.close()
 
-# create .data file
-m=open(datafile,"w")
-for d in alldata[1:]:
-    print(",".join(d))
-    m.write(",".join(d)+"\n")
-m.close()
+        # create .data file
+        m=open(self.datafile,"w")
+        for d in alldata[1:]:
+            m.write(",".join(d)+"\n")
+        m.close()
 
+
+# See5("csv1.csv","see51.names","see51.data","city").generate_see5()
