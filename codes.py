@@ -25,7 +25,10 @@ class See5():
         data=[]
         for item in alldata[1:]:
             for x in range(len(attributes)):
-                item_x=str(item[x])
+                if len(item[x])==0:
+                    item_x="?"
+                else:
+                    item_x=str(item[x])
                 data+=[item_x,]
 
         datatype=[]
@@ -38,6 +41,8 @@ class See5():
                 datacheck=eval(str(t.join(datatype)).strip("~!@#$%^&*(),./;'[]\<>-=_+{}|:<>? "))
                 n.write(attributes[w]+"\t"*2+"continuous."+"\n")
             except NameError or SyntaxError:
+                if "?" in datatype:
+                    datatype.remove("?")
                 if len(datatype)>=10:
                     n.write(attributes[w]+"\t"*2+"label."+"\n")
                 else:
@@ -50,8 +55,14 @@ class See5():
         # create .data file
         m=open(self.datafile,"w")
         for d in alldata[1:]:
+            for dd in range(len(d)):
+                if len(d[dd])==0:
+                    d[dd]="?"
+                elif "%" in d[dd]:
+                    d[dd]=str(eval(d[dd].strip("%"))/100)
             m.write(",".join(d)+"\n")
+
         m.close()
 
 
-# See5("csv1.csv","see51.names","see51.data","city").generate_see5()
+# See5("mergedcsv13.csv","mergedcsv13.names","mergedcsv13.data","city").generate_see5()
