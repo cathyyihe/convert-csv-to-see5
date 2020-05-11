@@ -1,0 +1,13 @@
+city			| the target attribute
+
+city		a,b,c,d,e,f,g.
+temp		continuous.
+humi		continuous.
+pred		F,T.
+ID		D1,D2,D3,D4,D5,D6,D7,D8,D9.
+state		NSW,VIC.
+rate		high,low.
+name		Cool,W,nick,nick .
+city.1		a,b,c,d,e,f,g.
+temp.1		continuous.
+humi.1		continuous.
