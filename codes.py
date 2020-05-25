@@ -40,7 +40,7 @@ class See5():
                 t="+"
                 datacheck=eval(str(t.join(datatype)).strip("~!@#$%^&*(),./;'[]\<>-=_+{}|:<>? "))
                 n.write(attributes[w]+"\t"*2+"continuous."+"\n")
-            except NameError or SyntaxError:
+            except:
                 if "?" in datatype:
                     datatype.remove("?")
                 if len(datatype)>=10:
@@ -60,6 +60,8 @@ class See5():
                     d[dd]="?"
                 elif "%" in d[dd]:
                     d[dd]=str(eval(d[dd].strip("%"))/100)
+                elif type(d[dd])==type(int(0)):
+                    d[dd]=int(d[dd])
             m.write(",".join(d)+"\n")
 
         m.close()
