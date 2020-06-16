@@ -5,6 +5,7 @@ import tkinter.messagebox
 import os
 import pandas
 import time
+# import shutil
 
 from convertcsvtosee5 import See5
 from convertcsvtoarff import Arff
@@ -87,10 +88,10 @@ def submit1():
             k.write("?"+"\n")
             k.close()
             try:
-                os.rename(fileToWrite,basename[:-5]+"_empty.arff")
+                os.rename(fileToWrite,savedict+"/"+basename[:-5]+"_empty.arff")
             except:
-                os.remove(basename[:-5]+"_empty.arff")
-                os.rename(fileToWrite,basename[:-5]+"_empty.arff")
+                os.remove(savedict+"/"+basename[:-5]+"_empty.arff")
+                os.rename(fileToWrite,savedict+"/"+basename[:-5]+"_empty.arff")
         if 0<len(widget8.curselection())<len(attribute_from_csv):
             try:
                 os.rename(fileToWrite,"temp.arff")
@@ -115,19 +116,19 @@ def submit1():
             o.close()
             p.close()
             try:
-                os.rename(fileToWrite,basename[:-5]+"_part.arff")
+                os.rename(fileToWrite,savedict+"/"+basename[:-5]+"_part.arff")
             except:
                 tk.messagebox.showerror("error","File is existed, new file will override it.")
-                os.remove(basename[:-5]+"_part.arff")
-                os.rename(fileToWrite,basename[:-5]+"_part.arff")
+                os.remove(savedict+"/"+basename[:-5]+"_part.arff")
+                os.rename(fileToWrite,savedict+"/"+basename[:-5]+"_part.arff")
             os.remove("temp.arff")
         if len(widget8.curselection())==len(attribute_from_csv):
             try:
-                os.rename(fileToWrite,basename[:-5]+"_all.arff")
+                os.rename(fileToWrite,savedict+"/"+basename[:-5]+"_all.arff")
             except:
                 tk.messagebox.showerror("error","File is existed, new file will override it.")
-                os.remove(basename[:-5]+"_all.arff")
-                os.rename(fileToWrite,basename[:-5]+"_all.arff")
+                os.remove(savedict+"/"+basename[:-5]+"_all.arff")
+                os.rename(fileToWrite,savedict+"/"+basename[:-5]+"_all.arff")
         os.remove(templocation)
         global statusshow
         statusshow="csv has been converted to arff."
@@ -154,8 +155,8 @@ def submit2():
         See5(tempcsv,namesfile,datafile,target).generate_see5()
         global attribute_from_csv
         if len(widget8.curselection())==0:
-            with open(str(tempcsv[len(str(exetime)):-4]+"_empty.names"),"w"):pass
-            with open(str(tempcsv[len(str(exetime)):-4]+"_empty.data"),"w"):pass
+            with open(savedict+"/"+str(tempcsv[len(str(exetime)):-4]+"_empty.names"),"w"):pass
+            with open(savedict+"/"+str(tempcsv[len(str(exetime)):-4]+"_empty.data"),"w"):pass
         if 0<len(widget8.curselection())<len(attribute_from_csv):
             o= open(namesfile,"r+")
             oldlines=o.readlines()
@@ -184,25 +185,27 @@ def submit2():
             t.close()
             os.remove(datafile)
             try:
-                os.rename("temp.data",tempcsv[len(exetime):-4]+"_part.data")
-                os.rename("temp.names",tempcsv[len(exetime):-4]+"_part.names")
+                os.rename("temp.data",savedict+"/"+tempcsv[len(exetime):-4]+"_part.data")
+                os.rename("temp.names",savedict+"/"+tempcsv[len(exetime):-4]+"_part.names")
             except:
                 tk.messagebox.showerror("error","File is existed, new file will override it.")
-                os.remove(tempcsv[len(exetime):-4]+"_part.names")
-                os.remove(tempcsv[len(exetime):-4]+"_part.data")
-                os.rename("temp.names",tempcsv[len(exetime):-4]+"_part.names")
-                os.rename("temp.data",tempcsv[len(exetime):-4]+"_part.data")
+                os.remove(savedict+"/"+tempcsv[len(exetime):-4]+"_part.names")
+                os.remove(savedict+"/"+tempcsv[len(exetime):-4]+"_part.data")
+                os.rename("temp.names",savedict+"/"+tempcsv[len(exetime):-4]+"_part.names")
+                os.rename("temp.data",savedict+"/"+tempcsv[len(exetime):-4]+"_part.data")
         if len(widget8.curselection())==len(attribute_from_csv):
             try:
-                os.rename(namesfile,str(tempcsv[len(str(exetime)):-4]+"_all.names"))
-                os.rename(datafile,str(tempcsv[len(str(exetime)):-4]+"_all.data"))
+                os.rename(namesfile,savedict+"/"+str(tempcsv[len(str(exetime)):-4]+"_all.names"))
+                os.rename(datafile,savedict+"/"+str(tempcsv[len(str(exetime)):-4]+"_all.data"))
             except:
                 tk.messagebox.showerror("error","File is existed, new file will override it.")
-                os.remove(str(tempcsv[len(str(exetime)):-4]+"_all.names"))
-                os.remove(str(tempcsv[len(str(exetime)):-4]+"_all.data"))
-                os.rename(namesfile,str(tempcsv[len(str(exetime)):-4]+"_all.names"))
-                os.rename(datafile,str(tempcsv[len(str(exetime)):-4]+"_all.data"))
+                os.remove(savedict+"/"+str(tempcsv[len(str(exetime)):-4]+"_all.names"))
+                os.remove(savedict+"/"+str(tempcsv[len(str(exetime)):-4]+"_all.data"))
+                os.rename(namesfile,savedict+"/"+str(tempcsv[len(str(exetime)):-4]+"_all.names"))
+                os.rename(datafile,savedict+"/"+str(tempcsv[len(str(exetime)):-4]+"_all.data"))
+                # shutil.move(str(tempcsv[len(str(exetime)):-4]+"_all.data"),savedict+"/"+str(tempcsv[len(str(exetime)):-4]+"_all.data"))
         os.remove(templocation)
+
         global statusshow
         statusshow="csv has been converted to see5 files (.names and .data)."
         status["text"]=statusshow
