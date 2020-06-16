@@ -66,6 +66,4 @@ class See5():
 
         m.close()
 
-        
-
 # See5("mergedcsv13.csv","mergedcsv13.names","mergedcsv13.data","city").generate_see5()
